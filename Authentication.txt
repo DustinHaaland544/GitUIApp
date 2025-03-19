@@ -30,3 +30,17 @@ account to verify ownership before proceeding with the connection.
 - Step 3: Extract username from the link and compare it with the authenticated username.
   -> If matched: Connect the repo directly.
   -> If not matched or user not authenticated: Prompt user for login and verify repo ownership.
+
+Firebase Authentication provides an easy-to-integrate and secure method for handling user authentication. To proceed, we'll need to:
+
+1. Set Up Firebase Authentication:
+- Enable sign-in methods for GitHub, GitLab, and Bitbucket in your Firebase console.
+- Integrate Firebase Auth SDK in your front-end project.
+
+2. Implement Authentication Flow:
+- Implement the login process where users can authenticate via their GitHub, GitLab, or Bitbucket account.
+- Use the authentication data to verify if the repo link belongs to the authenticated user.
+
+3. Ensure Repo Ownership Verification:
+- Once logged in, if the user pastes a Git repo link, check if the link matches the logged-in account's username.
+- If the repo belongs to the user, directly connect the repo; otherwise, ask the user to log in.
