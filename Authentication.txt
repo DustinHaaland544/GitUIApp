@@ -1,14 +1,14 @@
 To implement this authentication system in your Git UI app, you can follow these steps:
 
 1. Integrate OAuth Authentication:
-- Use OAuth to authenticate users with their Git accounts (GitHub, GitLab, or Bitbucket). This will give your app the necessary access to verify the user's identity 
-and their repositories.
+- Use OAuth to authenticate users with their Git accounts (GitHub, GitLab, or Bitbucket). This will give your app the necessary access to verify the user's 
+identity and their repositories.
 - Use libraries like Firebase Authentication or Passport.js to manage OAuth flow and securely authenticate users. Firebase Authentication can simplify this process 
 by handling the entire flow for GitHub, GitLab, and Bitbucket logins.
 
 2. Store User Authentication Info:
-- Once the user logs in via OAuth, save their authentication tokens (GitHub, GitLab, Bitbucket) in your app's state or a session. This will allow you to check if they 
-are logged in and which account they are logged into.
+- Once the user logs in via OAuth, save their authentication tokens (GitHub, GitLab, Bitbucket) in your app's state or a session. This will allow you to check if 
+they are logged in and which account they are logged into.
 
 3. Verify the Repo Link:
 - When a user pastes a repo link, extract the username or organization part of the URL (e.g., in GitHub, it's in the github.com/username/repo-name format).
