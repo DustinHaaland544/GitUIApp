@@ -64,7 +64,7 @@ Step 1: Set up Authentication in Firebase Console:
 3. Obtain OAuth Credentials:
 - For each provider (GitHub, GitLab, Bitbucket), you will need to set up OAuth credentials in their respective developer portals to get Client ID and Client Secret.
   -> For GitHub: GitHub OAuth App Setup (https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
-  -> For GitLab: GitLab OAuth Setup (https://docs.gitlab.com/ee/administration/oauth_provider.html)
+  -> For GitLab: GitLab OAuth Setup (https://docs.gitlab.com/integration/oauth_provider)
   -> For Bitbucket: Bitbucket OAuth App Setup (https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication)
 
 4. Add the OAuth Credentials:
