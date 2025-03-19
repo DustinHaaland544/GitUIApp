@@ -44,3 +44,29 @@ Firebase Authentication provides an easy-to-integrate and secure method for hand
 3. Ensure Repo Ownership Verification:
 - Once logged in, if the user pastes a Git repo link, check if the link matches the logged-in account's username.
 - If the repo belongs to the user, directly connect the repo; otherwise, ask the user to log in.
+
+Let's start by setting up Firebase Authentication for GitHub, GitLab, and Bitbucket sign-ins in Firebase.
+
+Step 1: Set up Authentication in Firebase Console:
+
+1. Go to Firebase Console:
+- Navigate to the Firebase Console (https://console.firebase.google.com [nasifshah548@gmail.com])
+- Select your project (or create a new one if needed).
+
+2. Enable Authentication Providers:
+- In the Firebase Console, click on "Authentication" in the left sidebar.
+- Go to the "Sign-in method" tab.
+- Enable the following sign-in providers (GitHub, GitLab, and Bitbucket):
+  -> GitHub: Enable GitHub and enter your OAuth credentials from GitHub (you will need to register your app with GitHub).
+  -> GitLab: Enable GitLab and enter your OAuth credentials from GitLab (you will need to register your app with GitLab).
+  -> Bitbucket: Enable Bitbucket (note: you may need to set this up manually in Firebase if not listed, as Bitbucket isn’t natively supported).
+
+3. Obtain OAuth Credentials:
+- For each provider (GitHub, GitLab, Bitbucket), you will need to set up OAuth credentials in their respective developer portals to get Client ID and Client Secret.
+  -> For GitHub: GitHub OAuth App Setup (https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
+  -> For GitLab: GitLab OAuth Setup (https://docs.gitlab.com/ee/administration/oauth_provider.html)
+  -> For Bitbucket: Bitbucket OAuth App Setup (https://developer.atlassian.com/bitbucket/api/2/reference/meta/authentication)
+
+4. Add the OAuth Credentials:
+- For each provider, after registering your app with their developer portal, copy the Client ID and Client Secret into the appropriate fields in the Firebase 
+Authentication console.
