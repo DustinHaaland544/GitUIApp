@@ -1,0 +1,7 @@
+Yes lets move on with the authentication, so we are fully flexible with the users pasting their git repo links in order to connect to their project 
+but we need to be extra cautious with authentication as we do not want any user to abuse our system by copying a link from a git repo that they don't own and  
+use it to connect their project, we need to have strong security and authentication system in order to verify the user that when they paste the link of the git 
+repo link the app needs to ask the user for their login in order to authenticate them but the app should not ask the user to authenticate if the user is logged 
+in using their git account and they are pasting the repo link from that same account, so for example if the user is logged in to our app using their gitlab account 
+and they are using a gitlab repo link directly from their account (as the repo link will contain the user's username) then the app should not ask the user to login 
+to their git account instead should directly connect their account to the repo, but in any other cases the app needs to ask the user to login.
