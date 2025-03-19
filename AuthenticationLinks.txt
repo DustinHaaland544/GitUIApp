@@ -1,0 +1,5 @@
+GitHub: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+
+GitLab: https://gitlab.com/users/sign_in
+
+BitBucket: https://developer.atlassian.com/cloud/bitbucket/rest/intro/?utm_source=%2Fbitbucket%2Fapi%2F2%2Freference%2Fmeta%2Fauthentication&utm_medium=302
