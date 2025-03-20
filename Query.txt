@@ -4,4 +4,4 @@ use it to connect their project, we need to have strong security and authenticat
 repo link the app needs to ask the user for their login in order to authenticate them but the app should not ask the user to authenticate if the user is logged 
 in using their git account and they are pasting the repo link from that same account, so for example if the user is logged in to our app using their gitlab account 
 and they are using a gitlab repo link directly from their account (as the repo link will contain the user's username) then the app should not ask the user to login 
-to their git account instead should directly connect their account to the repo, but in any other cases the app needs to ask the user to login.
+to their git account instead should directly connect their repo to thier project, but in any other cases the app needs to ask the user to login.
