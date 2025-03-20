@@ -1,6 +1,5 @@
-Great question! If you're showcasing your app on your portfolio website and you want employers to test it while keeping your Firebase API keys and credentials secure, 
-
-here’s the best approach:
+Great question! If you're showcasing your app on your portfolio website and you want employers to test it while keeping your Firebase API keys and 
+credentials secure, here’s the best approach:
 
 Best Practices for a Public Demo
 
