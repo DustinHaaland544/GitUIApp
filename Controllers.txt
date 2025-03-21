@@ -1,0 +1,115 @@
+Got it! Now, let's set up authController.js to handle authentication and Git operations properly. Since we're using Firebase Authentication, 
+we’ll integrate OAuth login with GitHub, GitLab, and Bitbucket while ensuring proper security checks.
+
+Features of authController.js:
+- Handle user authentication via Firebase Authentication.
+- Verify OAuth tokens from GitHub, GitLab, and Bitbucket.
+- Ensure users own the repository before linking it.
+- Store user session details securely.
+
+
+authController.js
+
+// Import required modules
+import admin from "firebase-admin";
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Initialize Firebase Admin SDK
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIALS)),
+  });
+}
+
+// Function to verify Firebase ID token
+export const verifyFirebaseToken = async (req, res, next) => {
+  try {
+    const { token } = req.headers;
+
+    if (!token) {
+      return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    console.error("Firebase token verification failed:", error);
+    return res.status(401).json({ error: "Unauthorized: Invalid token" });
+  }
+};
+
+// Function to verify repo ownership
+export const verifyRepoOwnership = async (req, res) => {
+  try {
+    const { gitProvider, accessToken, repoUrl } = req.body;
+
+    if (!gitProvider || !accessToken || !repoUrl) {
+      return res.status(400).json({ error: "Missing required parameters" });
+    }
+
+    let apiUrl, headers;
+    switch (gitProvider) {
+      case "github":
+        apiUrl = `https://api.github.com/user/repos`;
+        headers = { Authorization: `token ${accessToken}` };
+        break;
+      case "gitlab":
+        apiUrl = `https://gitlab.com/api/v4/projects?owned=true`;
+        headers = { Authorization: `Bearer ${accessToken}` };
+        break;
+      case "bitbucket":
+        apiUrl = `https://api.bitbucket.org/2.0/repositories?role=owner`;
+        headers = { Authorization: `Bearer ${accessToken}` };
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid Git provider" });
+    }
+
+    const response = await axios.get(apiUrl, { headers });
+    const userRepos = response.data;
+
+    // Check if user owns the repo
+    const ownsRepo = userRepos.some((repo) =>
+      repoUrl.includes(repo.ssh_url || repo.http_url || repo.clone_url)
+    );
+
+    if (!ownsRepo) {
+      return res.status(403).json({ error: "User does not own this repository" });
+    }
+
+    res.status(200).json({ success: true, message: "Repository verified successfully" });
+  } catch (error) {
+    console.error("Error verifying repo ownership:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+How It Works:
+
+1. Firebase Token Verification (verifyFirebaseToken):
+- Checks if the user has a valid Firebase token.
+- If valid, it allows the request to proceed.
+- If invalid, it blocks the request.
+
+2. Repository Ownership Verification (verifyRepoOwnership)
+- Takes in gitProvider, accessToken, and repoUrl.
+- Uses API requests to GitHub, GitLab, or Bitbucket to fetch the user’s owned repositories.
+- Checks if the pasted repo URL matches an owned repo.
+- If the user owns the repo → success 
+- If the user doesn’t own the repo → rejects 
+
+Next Steps
+
+1. Set Up Firebase Admin Credentials
+- Go to Firebase Console → Project Settings → Service Accounts.
+- Generate a new private key and store it in .env as:
+  
+  FIREBASE_ADMIN_CREDENTIALS='your_json_credentials_here'
+
+2. Implement OAuth Flow in Frontend
+- We need buttons for GitHub, GitLab, and Bitbucket login.
+- Once logged in, we obtain the accessToken and send it to the backend for verification.
