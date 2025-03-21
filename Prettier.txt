@@ -1,0 +1,42 @@
+Open settings.json via Command Palette (Recommended)
+
+1. Open VS Code.
+
+2. Press Ctrl + Shift + P (or Cmd + Shift + P on Mac) to open the Command Palette.
+
+3. Type "Preferences: Open Settings (JSON)" and select it.
+
+4. Select the Open User Settings (JSON) 
+
+5. This will open your settings.json file.
+
+After the file opens, replace the code in the file with this following code:
+
+{
+    "explorer.confirmDelete": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
+
+Explanation:
+- "editor.formatOnSave": true → Automatically formats your code when you save.
+- "editor.formatOnPaste": true → Formats code when you paste something into the file.
+- "editor.formatOnType": true → Formats code as you type.
+- The [javascript], [json], and [typescript] sections ensure Prettier is the default formatter for those file types.
+
+Next Steps:
+- Save the settings.json file.
+- Restart VS Code.
+- Open a .js, .ts, or .json file and hit Ctrl + S—it should auto-format!
