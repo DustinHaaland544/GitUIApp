@@ -1,0 +1,66 @@
+Your MongoDB connection is failing due to an incorrect connection string. The error:
+
+querySrv ENOTFOUND _mongodb._tcp.your_cluster.mongodb.net
+
+suggests that your_cluster.mongodb.net is not a valid hostname.
+
+✅ Fix: Update Your MongoDB Connection String
+Check your config/database.js (or wherever your MongoDB connection is set up) and make sure you're using the correct MongoDB URI.
+
+1️⃣ Get Your MongoDB Connection String
+
+- If you're using MongoDB Atlas:
+
+  1. Go to MongoDB Atlas (www.mongodb.com/products/platform/cloud).
+  2. Select your cluster.
+  3. Click "Connect" → "Connect your application".
+  4. Copy the connection string, which looks like:
+
+    mongodb+srv://<username>:<password>@your-cluster.mongodb.net/<database>?retryWrites=true&w=majority
+
+  5. Replace <username>, <password>, and <database> accordingly.
+
+- If you're using local MongoDB, try:
+
+  mongodb://localhost:27017/git-ui-app
+
+2️⃣ Update config/database.js
+
+Modify your MongoDB connection setup (inside config/database.js or server.js):
+
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/git-ui-app"; // Update this
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true, // No longer needed, can be removed
+      useUnifiedTopology: true, // No longer needed, can be removed
+    });
+    console.log("✅ MongoDB connected successfully.");
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+    process.exit(1); // Exit the process on failure
+  }
+};
+
+export default connectDB;
+
+3️⃣ Set Up Your .env File
+
+If you’re using an .env file, add:
+
+MONGO_URI=mongodb+srv://<username>:<password>@your-cluster.mongodb.net/<database>?retryWrites=true&w=majority
+
+4️⃣ Restart Your Server
+
+Run: npm start
+
+Next Steps:
+- If MongoDB still doesn’t connect, ensure your internet is working and that your database exists in MongoDB Atlas.
+- If using MongoDB Atlas, check IP Access List settings to allow connections.
+- If using a local MongoDB instance, ensure it's running (mongod process).
