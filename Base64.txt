@@ -3,6 +3,7 @@ You should NOT store the Firebase service account JSON file directly in your Git
 Here are some recommended approaches:
 
 Use Environment Variables Instead of the JSON File
+
 Instead of storing the JSON file, you can store its contents in environment variables and reconstruct it in your code when needed.
 
 Steps:
