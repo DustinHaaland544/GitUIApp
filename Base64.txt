@@ -1,0 +1,90 @@
+You should NOT store the Firebase service account JSON file directly in your GitHub repo, but there are better ways to manage this when working across multiple machines. 
+Here are some recommended approaches:
+
+Use Environment Variables Instead of the JSON File
+Instead of storing the JSON file, you can store its contents in environment variables and reconstruct it in your code when needed.
+
+Steps:
+
+1. Convert your JSON file into a Base64 encoded string
+
+Run this command in your terminal:
+
+base64 backend/config/gitbridge-app-firebase-adminsdk-fbsvc-68075fea2c.json # Use Git Bash instead of Terminal
+
+This will output a long Base64 string. Copy that string.
+
+2. Store the Base64 string in an environment variable
+
+Add this to your .env file:
+
+FIREBASE_CREDENTIALS_BASE64=your-long-base64-string
+
+3. Modify firebase.js to reconstruct the JSON file from the environment variable
+
+Update your firebase.js file like this:
+
+import admin from "firebase-admin";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+if (!process.env.FIREBASE_CREDENTIALS_BASE64) {
+    throw new Error("Missing Firebase credentials in environment variables.");
+}
+
+// Decode the Base64 string back into JSON
+const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CREDENTIALS_BASE64, 'base64').toString('utf8'));
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
+
+export const auth = admin.auth();
+export const db = admin.firestore();
+
+console.log("✅ Firebase Admin SDK initialized successfully.");
+
+4. Deploy your .env file securely
+
+- On your local machine, keep the .env file but make sure it is added to .gitignore so it doesn't get pushed.
+
+- On a new machine, when you pull the repo, manually create a .env file and copy the Base64 string into it.
+
+- For deployment (e.g., on a cloud server like Vercel, AWS, etc.), set the FIREBASE_CREDENTIALS_BASE64 as an environment variable in your hosting provider's settings.
+
+Store the JSON File in a Secure Cloud Storage
+
+If you don’t want to use Base64 encoding, another way is to store the JSON file securely in a private storage solution and download it when needed.
+
+- Google Cloud Secret Manager: Store the credentials there and retrieve them in your backend.
+
+- AWS Secrets Manager: Works the same way as Google Cloud Secret Manager.
+
+- Private Google Drive: You can keep it in Google Drive (or any cloud storage) and manually download it when setting up a new machine.
+
+Manually Download on a New Machine
+
+If you don't work on new machines often, you can just manually download the Firebase JSON file from the Firebase console when setting up a new machine.
+
+Steps:
+
+1. Go to Firebase Console → Project Settings.
+
+2. Scroll down to "Service accounts".
+
+3. Click "Generate new private key".
+
+4. Download the new key and place it in backend/config/.
+
+5. Restart your backend server.
+
+This is the easiest but least automated method.
+
+Which Option is Best?
+
+- For local development: Use Option 1 (Base64 encoding in .env).
+
+- For production servers: Use Google Cloud Secret Manager or set the FIREBASE_CREDENTIALS_BASE64 as an environment variable.
+
+- If you switch machines rarely: Just manually download the JSON file from Firebase when needed.
