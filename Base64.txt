@@ -1,4 +1,5 @@
 You should NOT store the Firebase service account JSON file directly in your GitHub repo, but there are better ways to manage this when working across multiple machines. 
+
 Here are some recommended approaches:
 
 Use Environment Variables Instead of the JSON File
